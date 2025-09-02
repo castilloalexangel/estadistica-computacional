@@ -1,0 +1,52 @@
+\documentclass[12pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
+
+\onehalfspacing
+
+\title{Técnicas de Escalado en Conjuntos de Datos Heterogéneos}
+\author{Alex Angel Castillo Quilca \\ 
+\href{https://github.com/castilloalexangel/estadistica-computacional.git}{https://github.com/castilloalexangel/estadistica-computacional.git}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Ensayo Académico}
+
+La elección de una técnica de escalado en conjuntos de datos con variables heterogéneas depende de factores relacionados con la naturaleza de los datos, el algoritmo empleado y la estabilidad del rendimiento esperado. En primer lugar, la \textbf{distribución y rango de las variables} es determinante: mientras que métodos como Min-Max son adecuados para datos acotados, la estandarización mediante Z-score resulta más robusta ante la presencia de valores atípicos \cite{Ahsan2021}. Asimismo, la heterogeneidad entre variables como edad, ingresos o niveles bioquímicos exige reducir la dominancia de aquellas con mayor magnitud \cite{Shahriyari2019}.  
+
+El \textbf{tipo de algoritmo} también guía la elección: modelos basados en distancia (p. ej., KNN, SVM) son altamente sensibles a la escala, mientras que los métodos basados en árboles presentan menor dependencia \cite{Ambarwari2020}. Además, técnicas como la \textbf{normalización tangente hiperbólica} han demostrado mejorar el desempeño de redes neuronales al centrar los datos en cero \cite{Protic2023}.  
+
+Otro criterio es la \textbf{estabilidad del rendimiento}. Estudios muestran que un escalado consistente puede aumentar significativamente la precisión de clasificadores en contextos heterogéneos, superando el 95\% en escenarios con variables numéricas escaladas adecuadamente \cite{Balabaeva2019}.  
+
+En síntesis, la elección de la técnica de escalado depende de: (1) distribución de las variables, (2) sensibilidad del algoritmo, (3) presencia de outliers, y (4) necesidad de estabilidad y generalización del modelo.  
+
+\section*{Referencias}
+
+\begin{thebibliography}{9}
+
+\bibitem{Ahsan2021}
+Ahsan, M. M., Mahmud, M. P., Saha, P. K., Gupta, K. D., \& Siddique, Z. (2021). Effect of data scaling methods on machine learning algorithms and model performance. \textit{Technologies}, 9(3), 52. https://doi.org/10.3390/technologies9030052
+
+\bibitem{Protic2023}
+Protic, D., \& Stankovic, M. (2023). Numerical feature selection and hyperbolic tangent feature scaling in machine learning-based detection. \textit{Electronics}, 12(19), 4158. https://doi.org/10.3390/electronics12194158
+
+\bibitem{Shahriyari2019}
+Shahriyari, L. (2019). Effect of normalization methods on supervised learning algorithms applied to HTSeq-FPKM-UQ data sets. \textit{Briefings in Bioinformatics}, 20(3), 985--994. https://doi.org/10.1093/bib/bbx153
+
+\bibitem{Ambarwari2020}
+Ambarwari, A., Setiawan, A., Adzkiya, D., \& Wiharto, W. (2020). Analysis of the effect of data scaling on machine learning algorithm performance. \textit{J. RESTI}, 4(1), 117--122. https://doi.org/10.29207/resti.v4i1.1517
+
+\bibitem{Balabaeva2019}
+Balabaeva, K., \& Kovalchuk, S. (2019). Comparison of temporal and non-temporal features effect on machine learning models. \textit{Procedia Computer Science}, 156, 87--96. https://doi.org/10.1016/j.procs.2019.08.183
+
+\end{thebibliography}
+
+\end{document}

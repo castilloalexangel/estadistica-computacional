@@ -1,0 +1,203 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\geometry{margin=2cm}
+
+\lstset{
+    language=R,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\title{Variables y Casos de Ejemplo para Tests Estadísticos}
+\author{Alex Angel Castillo Quilca}
+\date{2 de septiembre de 2025}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\url{https://github.com/castilloalexangel/estadistica-computacional.git}
+\end{center}
+
+\section{Tests de Una Muestra}
+
+\textbf{One-sample t-test}
+
+Variable: Altura de estudiantes (cm)
+
+Caso: Trabajo en el centro médico universitario y noto que los estudiantes parecen más altos últimamente. El promedio nacional es 170 cm pero sospecho que los universitarios son diferentes. Medí a 25 estudiantes durante el examen médico anual.
+
+\begin{lstlisting}
+t.test(altura_estudiantes, mu = 170)
+\end{lstlisting}
+
+\textbf{Wilcoxon signed-rank test}
+
+Variable: Satisfacción con cafetería (escala 1-5)
+
+Caso: Soy representante estudiantil y queremos negociar mejoras en la cafetería. Necesito demostrar que la satisfacción actual (neutral = 3) es significativamente baja. Encuesté a 30 estudiantes pero las respuestas no siguen distribución normal.
+
+\begin{lstlisting}
+wilcox.test(satisfaccion, mu = 3)
+\end{lstlisting}
+
+\textbf{Sign test}
+
+Variable: Mejoría del paciente (Sí/No)
+
+Caso: Mi hermana es doctora y está probando un nuevo tratamiento. Solo puede anotar si cada paciente mejoró o no después de 1 mes. Quiere saber si funciona mejor que el azar (50\% de mejoras esperadas).
+
+\begin{lstlisting}
+binom.test(numero_que_mejoraron, total_pacientes, p = 0.5)
+\end{lstlisting}
+
+\section{Tests de Dos Grupos}
+
+\textbf{Independent t-test}
+
+Variables: Horas de estudio por carrera (Ingeniería vs Psicología)
+
+Caso: Hay un debate en la universidad sobre qué carrera es más exigente. Los de ingeniería dicen que estudian más, los de psicología dicen lo contrario. Encuesté a 20 de cada carrera durante época de exámenes para resolver la discusión.
+
+\begin{lstlisting}
+t.test(horas_ing, horas_psic, var.equal = TRUE)
+\end{lstlisting}
+
+\textbf{Mann-Whitney U test}
+
+Variables: Nivel de concentración con música (Clásica vs Rock)
+
+Caso: Para mi tesis estoy estudiando cómo afecta la música al rendimiento académico. Cada grupo de voluntarios estudió con un tipo de música y midió su concentración del 1-10. Los datos de concentración no son normales porque muchos pusieron valores extremos.
+
+\begin{lstlisting}
+wilcox.test(concentracion_clasica, concentracion_rock)
+\end{lstlisting}
+
+\textbf{Paired t-test}
+
+Variable: Peso corporal antes y después de dieta
+
+Caso: Mi prima nutricionista quiere publicar un paper sobre su nueva dieta. Siguió a 15 pacientes durante 2 meses pesándolos antes y después. Necesita demostrar que la diferencia es estadísticamente significativa.
+
+\begin{lstlisting}
+t.test(peso_antes, peso_despues, paired = TRUE)
+\end{lstlisting}
+
+\section{Tests de Múltiples Grupos}
+
+\textbf{One-way ANOVA}
+
+Variables: Tiempo de sueño por marca de café (A/B/C/Control sin cafeína)
+
+Caso: Para un proyecto de psicología experimental, doy diferentes marcas de café a 4 grupos de 10 personas cada uno. Mido cuánto tardan en dormirse esa noche. Quiero ver si alguna marca afecta más el sueño que otras.
+
+\begin{lstlisting}
+modelo <- aov(tiempo_sueno ~ marca_cafe)
+summary(modelo)
+TukeyHSD(modelo)
+\end{lstlisting}
+
+\textbf{Kruskal-Wallis test}
+
+Variables: Nivel de estrés por año académico (1ro/2do/3ro/4to)
+
+Caso: Estoy haciendo mi tesis sobre bienestar estudiantil. Encuesté a estudiantes de todos los años sobre su estrés (escala 1-7). Los datos están sesgados hacia valores altos porque estamos en época de exámenes finales.
+
+\begin{lstlisting}
+kruskal.test(estres ~ ano)
+library(dunn.test)
+dunn.test(estres, ano)
+\end{lstlisting}
+
+\textbf{Repeated measures ANOVA}
+
+Variables: Rendimiento en videojuegos por hora del día
+
+Caso: Mi amigo gamer dice que rinde mejor en las tardes. Hice que 12 personas jueguen el mismo juego a las 9 AM, 3 PM y 9 PM en días diferentes. Quiero ver si realmente la hora afecta el rendimiento.
+
+\begin{lstlisting}
+aov(rendimiento ~ hora + Error(sujeto/hora))
+\end{lstlisting}
+
+\textbf{Friedman test}
+
+Variables: Ranking de preferencia de helados
+
+Caso: Trabajo part-time en una heladería y mi jefe quiere saber qué sabor es más popular. Hice que 15 clientes prueben y rankeen chocolate, vainilla y fresa del 1 al 3 para ayudar con las compras del próximo mes.
+
+\begin{lstlisting}
+friedman.test(matriz_rankings)
+library(PMCMRplus)
+frdAllPairsNemenyiTest(matriz_rankings)
+\end{lstlisting}
+
+\section{Tests de Varianza}
+
+\textbf{Levene's test}
+
+Variables: Variabilidad en ingresos por región
+
+Caso: Para mi curso de economía analizo si la desigualdad de ingresos es diferente entre costa, sierra y selva. Antes de comparar promedios necesito verificar si las varianzas son homogéneas.
+
+\begin{lstlisting}
+library(car)
+leveneTest(ingresos ~ region)
+\end{lstlisting}
+
+\textbf{Bartlett's test}
+
+Variables: Variabilidad en crecimiento de plantas
+
+Caso: Mi proyecto de biología compara 3 fertilizantes. Antes de analizar qué fertilizante funciona mejor, debo verificar que la variabilidad del crecimiento sea similar entre grupos.
+
+\begin{lstlisting}
+bartlett.test(altura ~ fertilizante)
+\end{lstlisting}
+
+\section{Mi proceso de decisión}
+
+\textbf{Paso 1:} ¿Cuántos grupos tengo?
+\begin{itemize}
+\item 1 grupo → t-test o Wilcoxon
+\item 2 grupos → ver si son independientes o pareados  
+\item 3+ grupos → ANOVA o Kruskal-Wallis
+\end{itemize}
+
+\textbf{Paso 2:} ¿Los datos son normales?
+\begin{lstlisting}
+shapiro.test(mis_datos)
+\end{lstlisting}
+
+\textbf{Paso 3:} ¿Las varianzas son iguales?
+\begin{lstlisting}
+var.test(grupo1, grupo2)
+leveneTest(variable ~ grupo)
+\end{lstlisting}
+
+\textbf{Paso 4:} Elegir test apropiado y aplicar post-hoc si es necesario.
+
+\section{Lo que más me cuesta recordar}
+
+- El Welch t-test es el default en R (var.equal = FALSE)
+- Post-hoc tests solo si el principal es significativo (p < 0.05)
+- Friedman es para datos ordinales, RM-ANOVA para continuos
+- Mann-Whitney = Wilcoxon rank-sum (mismo test, diferentes nombres)
+- Siempre verificar supuestos antes, no después del test
+
+Estos tests me han ayudado mucho en mis proyectos. Al principio era confuso pero ahora ya tengo más claro cuándo usar cada uno.
+
+\end{document}

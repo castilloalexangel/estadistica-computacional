@@ -1,0 +1,57 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{Ejercicio Caramelos: ABM}
+\author{Alex Angel}
+\date{26 de septiembre del 2025}
+
+\begin{document}
+\maketitle
+
+\section*{Enunciado}
+Se tiene un juego con dos grupos de estudiantes y un profesor. El profesor cuenta inicialmente con 15 caramelos tipo A, 15 caramelos tipo B, 15 caramelos tipo C y 10 chupetines. Al inicio reparte 2 caramelos a cada estudiante y se queda con el resto. Solo reparte caramelos, no chupetines.
+
+Las reglas del juego son:
+\begin{itemize}
+    \item Un chupetín equivale a entregar un caramelo A, un caramelo B y un caramelo C.
+    \item Un chupetín más un caramelo cualquiera equivale a 4 caramelos aleatorios.
+\end{itemize}
+
+El objetivo del juego es que gane el estudiante que logre acumular mayor cantidad de chupetines. La tarea consiste en determinar cuántas iteraciones son necesarias para simular un caso real.
+
+\section*{Código en R}
+\begin{verbatim}
+simulate_game <- function(iter_max = 1000) {
+  caramelos <- list(A = 15, B = 15, C = 15)
+  chupetines <- 10
+  estudiantes <- list(E1 = list(A=2,B=0,C=0,chup=0),
+                      E2 = list(A=2,B=0,C=0,chup=0))
+  caramelos$A <- caramelos$A - 4
+  iter <- 0
+  while (iter < iter_max && chupetines > 0) {
+    jugador <- sample(c("E1","E2"),1)
+    if (estudiantes[[jugador]]$A>0 &&
+        estudiantes[[jugador]]$B>0 &&
+        estudiantes[[jugador]]$C>0) {
+      estudiantes[[jugador]]$A <- estudiantes[[jugador]]$A-1
+      estudiantes[[jugador]]$B <- estudiantes[[jugador]]$B-1
+      estudiantes[[jugador]]$C <- estudiantes[[jugador]]$C-1
+      estudiantes[[jugador]]$chup <- estudiantes[[jugador]]$chup+1
+      chupetines <- chupetines-1
+    }
+    iter <- iter+1
+  }
+  return(iter)
+}
+
+set.seed(123)
+resultado <- simulate_game()
+print(resultado)
+\end{verbatim}
+
+\section*{Conclusión}
+Para el caso planteado, el número de iteraciones necesarias para simular un escenario real depende de la disponibilidad de caramelos y chupetines, así como de las decisiones aleatorias de intercambio. Con el código en R se obtiene una aproximación práctica al número de iteraciones necesarias para completar la dinámica del juego.
+\end{document}
